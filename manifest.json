@@ -1,0 +1,20 @@
+{
+    "name": "Radiux",
+    "short_name": "Radiux",
+    "icons": [
+        {
+            "src": "./img/logo/android.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "./img/logo/android.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#041322",
+    "start_url": "./index.html"
+}

@@ -1,0 +1,1 @@
+body .loading-component{background-color:var(--bg-color-loading)}@keyframes spin{to{transform:rotate(360deg)}}body .loading-component img{animation:spin 4.5s linear infinite}
