@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Política de privacidad · Radiux</title>
+
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="shortcut icon" href="/radiux/favicon-32x32.ico" type="image/x-icon" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #060914;
+      --bg-card:   #0d1020;
+      --primary:   #5C5CFF;
+      --accent:    #0AB9A0;
+      --critical:  #FF8C42;
+      --error:     #FF4C6B;
+      --ink:       rgba(255,255,255,0.92);
+      --ink-mid:   rgba(255,255,255,0.6);
+      --ink-faint: rgba(255,255,255,0.38);
+      --b0:        rgba(255,255,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6,9,20,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: .5px solid var(--b0);
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .nav-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .nav-wordmark {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--ink);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-faint);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: color .15s, background .15s;
+    }
+
+    .nav-links a:hover { color: var(--ink); background: var(--b0); }
+    .nav-links a.active { color: var(--ink); background: rgba(92,92,255,0.12); }
+
+    /* FOOTER */
+    footer {
+      border-top: .5px solid var(--b0);
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    footer .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    footer .footer-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    footer p {
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+
+    footer nav a {
+      font-size: 12px;
+      color: var(--ink-faint);
+      text-decoration: none;
+      margin-left: 20px;
+    }
+
+    footer nav a:hover { color: var(--ink); }
+
+    /* LEGAL PAGES */
+    .legal-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 72px 40px 120px;
+    }
+
+    .legal-wrap h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .legal-date {
+      font-size: 12px;
+      color: var(--ink-faint);
+      margin-bottom: 48px;
+    }
+
+    .legal-wrap h2 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-top: 32px;
+      margin-bottom: 8px;
+    }
+
+    .legal-wrap p {
+      font-size: 14px;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+
+    /* CONFIGURACION */
+    .config-wrap {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 72px 40px 120px;
+    }
+
+    .config-wrap h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 40px;
+    }
+
+    .config-section {
+      background: var(--bg-card);
+      border: .5px solid var(--b0);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .config-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: .5px solid var(--b0);
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .config-row:last-child { border-bottom: none; }
+    .config-row:hover { background: rgba(255,255,255,0.02); }
+
+    .config-row-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .config-row-label span:first-child {
+      font-size: 16px;
+    }
+
+    .config-row-label span:last-child {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .config-row-value {
+      font-size: 13px;
+      color: var(--ink-faint);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .config-row-value svg {
+      opacity: 0.4;
+    }
+  </style>
+
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-icon"><svg id="icon-svg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1024 1024">
+  <!-- Generator: Adobe Illustrator 30.8.1, SVG Export Plug-In . SVG Version: 2.1.4 Build 1)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #5c5cff;
+      }
+
+      .st1, .st2 {
+        fill: #fff;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .st2 {
+        fill-rule: evenodd;
+      }
+
+      .st3 {
+        fill: url(#Degradado_sin_nombre);
+      }
+
+      .st4 {
+        opacity: .9;
+      }
+
+      .st5 {
+        filter: url(#glow);
+        isolation: isolate;
+        opacity: .07;
+      }
+    </style>
+    <radialGradient id="Degradado_sin_nombre" data-name="Degradado sin nombre" cx="214.29" cy="931.48" fx="214.29" fy="931.48" r=".5" gradientTransform="translate(-218922 954345.1875) scale(1024 -1024)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0d0e1f"/>
+      <stop offset="1" stop-color="#060914"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur result="blur" stdDeviation="18"/>
+      <feComposite in="SourceGraphic" in2="blur"/>
+    </filter>
+  </defs>
+  <rect class="st3" y="0" width="1024" height="1024" rx="230" ry="230"/>
+  <g class="st5">
+    <circle class="st0" cx="512" cy="512" r="300"/>
+  </g>
+  <g>
+    <g class="st4">
+      <g>
+        <path class="st1" d="M502.03,446.83c15.26-8.81,34.07-8.81,49.33,0l119.6-207.18c-89.27-51.54-199.25-51.54-288.52,0l119.6,207.18Z"/>
+        <path class="st1" d="M576.03,489.55c0,17.62-9.4,33.91-24.66,42.72l119.62,207.16c89.27-51.54,144.26-146.79,144.26-249.87h-239.22Z"/>
+        <path class="st1" d="M502.03,532.27c-15.26-8.81-24.66-25.1-24.66-42.72h-239.22c0,103.09,54.99,198.34,144.26,249.88l119.62-207.16Z"/>
+      </g>
+      <path class="st2" d="M527.98,100.7c215.39.03,389.98,174.66,389.95,390.05-.03,215.39-174.66,389.98-390.05,389.95-215.39-.03-389.98-174.66-389.95-390.05.03-215.35,174.6-389.92,389.95-389.95h.1ZM527.98,170.7c-176.73.03-319.98,143.32-319.95,320.05.03,176.73,143.32,319.98,320.05,319.95,176.73-.03,319.98-143.32,319.95-320.05-.03-176.69-143.26-319.92-319.95-319.95h-.1Z"/>
+    </g>
+    <circle class="st1" cx="527.27" cy="490.36" r="28.09"/>
+  </g>
+</svg></div>
+    <span class="nav-wordmark">Radiux</span>
+  </a>
+  <ul class="nav-links"><li><a href="index.html" class="active">Inicio</a></li><!--<li><a href="configuracion.html">Configuración</a></li>--><li><a href="terminos-y-condiciones.html">Términos y condiciones</a></li><li><a href="politicas-de-uso.html">Políticas de uso</a></li><li><a href="politica-de-privacidad.html">Política de privacidad</a></li></ul>
+</nav>
+  <div class="legal-wrap">
+    <h1>Política de privacidad</h1>
+    <p class="legal-date">Última actualización: 20 de noviembre de 2024</p>
+    <p>Esta Política de Privacidad describe nuestras políticas y procedimientos sobre la recopilación, el uso y la divulgación de tu información cuando usás Radiux y te informa sobre tus derechos de privacidad y cómo la ley te protege.</p>
+    <p>Nuestra aplicación no recopila ningún dato personal ni requiere permisos para su uso.</p>
+
+    <h2>Recopilación y uso de tus datos personales</h2>
+
+    <h2>Tipos de datos recopilados</h2>
+    <p>No recopilamos datos personales ni de uso, ya que nuestra aplicación no requiere ningún tipo de acceso a información personal para su funcionamiento.</p>
+
+    <h2>Uso de tus datos personales</h2>
+    <p>Dado que nuestra aplicación no recopila ningún dato personal, no usamos dicha información para fines comerciales ni para otro propósito.</p>
+
+    <h2>Compartir tus datos personales</h2>
+    <p>No compartimos tus datos personales, ya que no recopilamos ningún tipo de información personal.</p>
+
+    <h2>Retención de tus datos personales</h2>
+    <p>Como no recopilamos datos personales, no retenemos información sobre ti.</p>
+
+    <h2>Transferencia de tus datos personales</h2>
+    <p>No transferimos ningún dato personal ya que no recopilamos ni almacenamos información sobre los usuarios.</p>
+
+    <h2>Eliminar tus datos personales</h2>
+    <p>Dado que no recopilamos datos personales, no es necesario eliminar información personal.</p>
+
+    <h2>Seguridad de tus datos personales</h2>
+    <p>Aunque no recopilamos datos personales, siempre buscamos asegurar que nuestra aplicación sea segura. Sin embargo, debés recordar que ninguna aplicación es completamente inmune a posibles vulnerabilidades.</p>
+
+    <h2>Enlaces a otros sitios web</h2>
+    <p>Nuestra aplicación puede contener enlaces a otros sitios web que no son operados por nosotros. No tenemos control sobre el contenido ni las políticas de privacidad de estos sitios, por lo que te recomendamos revisar sus respectivas políticas de privacidad.</p>
+
+    <h2>Cambios a esta política de privacidad</h2>
+    <p>Si actualizamos esta Política de Privacidad en el futuro, te notificaremos sobre cualquier cambio mediante la publicación de la nueva política en esta página.</p>
+
+    <h2>Contacto</h2>
+    <p>Si tenés alguna pregunta sobre esta Política de Privacidad, podés contactarte con Ramiro Portas: ramiroportas@gmail.com</p>
+  </div>
+
+<footer>
+  <a href="index.html" class="footer-brand">
+    <div class="footer-icon"><svg id="icon-svg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1024 1024">
+  <!-- Generator: Adobe Illustrator 30.8.1, SVG Export Plug-In . SVG Version: 2.1.4 Build 1)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #5c5cff;
+      }
+
+      .st1, .st2 {
+        fill: #fff;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .st2 {
+        fill-rule: evenodd;
+      }
+
+      .st3 {
+        fill: url(#Degradado_sin_nombre);
+      }
+
+      .st4 {
+        opacity: .9;
+      }
+
+      .st5 {
+        filter: url(#glow);
+        isolation: isolate;
+        opacity: .07;
+      }
+    </style>
+    <radialGradient id="Degradado_sin_nombre" data-name="Degradado sin nombre" cx="214.29" cy="931.48" fx="214.29" fy="931.48" r=".5" gradientTransform="translate(-218922 954345.1875) scale(1024 -1024)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0d0e1f"/>
+      <stop offset="1" stop-color="#060914"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur result="blur" stdDeviation="18"/>
+      <feComposite in="SourceGraphic" in2="blur"/>
+    </filter>
+  </defs>
+  <rect class="st3" y="0" width="1024" height="1024" rx="230" ry="230"/>
+  <g class="st5">
+    <circle class="st0" cx="512" cy="512" r="300"/>
+  </g>
+  <g>
+    <g class="st4">
+      <g>
+        <path class="st1" d="M502.03,446.83c15.26-8.81,34.07-8.81,49.33,0l119.6-207.18c-89.27-51.54-199.25-51.54-288.52,0l119.6,207.18Z"/>
+        <path class="st1" d="M576.03,489.55c0,17.62-9.4,33.91-24.66,42.72l119.62,207.16c89.27-51.54,144.26-146.79,144.26-249.87h-239.22Z"/>
+        <path class="st1" d="M502.03,532.27c-15.26-8.81-24.66-25.1-24.66-42.72h-239.22c0,103.09,54.99,198.34,144.26,249.88l119.62-207.16Z"/>
+      </g>
+      <path class="st2" d="M527.98,100.7c215.39.03,389.98,174.66,389.95,390.05-.03,215.39-174.66,389.98-390.05,389.95-215.39-.03-389.98-174.66-389.95-390.05.03-215.35,174.6-389.92,389.95-389.95h.1ZM527.98,170.7c-176.73.03-319.98,143.32-319.95,320.05.03,176.73,143.32,319.98,320.05,319.95,176.73-.03,319.98-143.32,319.95-320.05-.03-176.69-143.26-319.92-319.95-319.95h-.1Z"/>
+    </g>
+    <circle class="st1" cx="527.27" cy="490.36" r="28.09"/>
+  </g>
+</svg></div>
+    <p style="font-size:13px;color:var(--ink-mid);font-weight:600;margin:0 0 0 8px;">Radiux</p>
+  </a>
+  <p>Medicina nuclear · Android</p>
+  <nav>
+    <a href="terminos-y-condiciones.html">Términos</a>
+    <a href="politicas-de-uso.html">Políticas de uso</a>
+    <a href="politica-de-privacidad.html">Privacidad</a>
+  </nav>
+</footer>
+</body>
+</html>

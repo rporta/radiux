@@ -1,21 +1,849 @@
 <!DOCTYPE html>
-<html lang="es" style="overflow: hidden;">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title></title>
-    <!-- Icon -->
-    <link rel="shortcut icon" href="/radiux/favicon.ico" type="image/x-icon" />
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.0.45/css/materialdesignicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <script type="module" crossorigin src="/radiux/assets/index.13fe0c73.js"></script>
-  <link rel="stylesheet" href="/radiux/assets/index.95984ac6.css">
+  <title>Radiux · Calculadora de medicina nuclear</title>
+
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="shortcut icon" href="/radiux/favicon-32x32.ico" type="image/x-icon" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #060914;
+      --bg-card:   #0d1020;
+      --primary:   #5C5CFF;
+      --accent:    #0AB9A0;
+      --critical:  #FF8C42;
+      --error:     #FF4C6B;
+      --ink:       rgba(255,255,255,0.92);
+      --ink-mid:   rgba(255,255,255,0.6);
+      --ink-faint: rgba(255,255,255,0.38);
+      --b0:        rgba(255,255,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6,9,20,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: .5px solid var(--b0);
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .nav-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .nav-wordmark {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--ink);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-faint);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: color .15s, background .15s;
+    }
+
+    .nav-links a:hover { color: var(--ink); background: var(--b0); }
+    .nav-links a.active { color: var(--ink); background: rgba(92,92,255,0.12); }
+
+    /* FOOTER */
+    footer {
+      border-top: .5px solid var(--b0);
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    footer .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    footer .footer-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    footer p {
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+
+    footer nav a {
+      font-size: 12px;
+      color: var(--ink-faint);
+      text-decoration: none;
+      margin-left: 20px;
+    }
+
+    footer nav a:hover { color: var(--ink); }
+
+    /* LEGAL PAGES */
+    .legal-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 72px 40px 120px;
+    }
+
+    .legal-wrap h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .legal-date {
+      font-size: 12px;
+      color: var(--ink-faint);
+      margin-bottom: 48px;
+    }
+
+    .legal-wrap h2 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-top: 32px;
+      margin-bottom: 8px;
+    }
+
+    .legal-wrap p {
+      font-size: 14px;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+
+    /* CONFIGURACION */
+    .config-wrap {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 72px 40px 120px;
+    }
+
+    .config-wrap h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 40px;
+    }
+
+    .config-section {
+      background: var(--bg-card);
+      border: .5px solid var(--b0);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .config-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: .5px solid var(--b0);
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .config-row:last-child { border-bottom: none; }
+    .config-row:hover { background: rgba(255,255,255,0.02); }
+
+    .config-row-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .config-row-label span:first-child {
+      font-size: 16px;
+    }
+
+    .config-row-label span:last-child {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .config-row-value {
+      font-size: 13px;
+      color: var(--ink-faint);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .config-row-value svg {
+      opacity: 0.4;
+    }
+  </style>
+
+  <style>
+    /* HERO */
+    .hero {
+      min-height: calc(100vh - 60px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 80px;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 80px 40px 120px;
+    }
+
+    .hero-kicker {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-kicker::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 4vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      font-weight: 300;
+      max-width: 420px;
+      margin-bottom: 40px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 13px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: opacity .15s, transform .15s;
+    }
+
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.06);
+      border: .5px solid var(--b0);
+      color: var(--ink-mid);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 13px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); color: var(--ink); }
+
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: .5px solid var(--b0);
+    }
+
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero-meta-num {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+
+    .hero-meta-label {
+      font-size: 11px;
+      color: var(--ink-faint);
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    /* ICON HERO */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-icon-wrap {
+      position: relative;
+      width: 280px;
+      height: 280px;
+    }
+
+    .hero-icon-glow {
+      position: absolute;
+      inset: -60px;
+      background: radial-gradient(circle, rgba(92,92,255,0.15) 0%, transparent 65%);
+      border-radius: 50%;
+      filter: blur(30px);
+      pointer-events: none;
+    }
+
+    .hero-icon {
+      width: 280px;
+      height: 280px;
+      border-radius: 64px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    }
+
+    /* FEATURES */
+    .features {
+      border-top: .5px solid var(--b0);
+      padding: 80px 40px;
+    }
+
+    .features-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
+    .features-header {
+      margin-bottom: 56px;
+    }
+
+    .features-header p {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 12px;
+    }
+
+    .features-header h2 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--b0);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .feature-card {
+      background: var(--bg);
+      padding: 32px 28px;
+    }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      color: var(--ink-faint);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    /* ISOTOPES */
+    .isotopes {
+      padding: 80px 40px;
+      border-top: .5px solid var(--b0);
+    }
+
+    .isotopes-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
+    .isotopes-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 48px;
+    }
+
+    .isotopes-header h2 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+    }
+
+    .isotopes-header p {
+      font-size: 14px;
+      color: var(--ink-faint);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    .isotope-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+
+    .isotope-chip {
+      background: var(--bg-card);
+      border: .5px solid var(--b0);
+      border-radius: 12px;
+      padding: 14px 12px;
+    }
+
+    .isotope-symbol {
+      font-size: 11px;
+      font-weight: 700;
+      font-family: monospace;
+      color: var(--ink-mid);
+      margin-bottom: 6px;
+    }
+
+    .isotope-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .isotope-half {
+      font-size: 10px;
+      color: var(--ink-faint);
+    }
+
+    .isotope-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div id="app"></div>
-    
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-icon"><svg id="icon-svg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1024 1024">
+  <!-- Generator: Adobe Illustrator 30.8.1, SVG Export Plug-In . SVG Version: 2.1.4 Build 1)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #5c5cff;
+      }
+
+      .st1, .st2 {
+        fill: #fff;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .st2 {
+        fill-rule: evenodd;
+      }
+
+      .st3 {
+        fill: url(#Degradado_sin_nombre);
+      }
+
+      .st4 {
+        opacity: .9;
+      }
+
+      .st5 {
+        filter: url(#glow);
+        isolation: isolate;
+        opacity: .07;
+      }
+    </style>
+    <radialGradient id="Degradado_sin_nombre" data-name="Degradado sin nombre" cx="214.29" cy="931.48" fx="214.29" fy="931.48" r=".5" gradientTransform="translate(-218922 954345.1875) scale(1024 -1024)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0d0e1f"/>
+      <stop offset="1" stop-color="#060914"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur result="blur" stdDeviation="18"/>
+      <feComposite in="SourceGraphic" in2="blur"/>
+    </filter>
+  </defs>
+  <rect class="st3" y="0" width="1024" height="1024" rx="230" ry="230"/>
+  <g class="st5">
+    <circle class="st0" cx="512" cy="512" r="300"/>
+  </g>
+  <g>
+    <g class="st4">
+      <g>
+        <path class="st1" d="M502.03,446.83c15.26-8.81,34.07-8.81,49.33,0l119.6-207.18c-89.27-51.54-199.25-51.54-288.52,0l119.6,207.18Z"/>
+        <path class="st1" d="M576.03,489.55c0,17.62-9.4,33.91-24.66,42.72l119.62,207.16c89.27-51.54,144.26-146.79,144.26-249.87h-239.22Z"/>
+        <path class="st1" d="M502.03,532.27c-15.26-8.81-24.66-25.1-24.66-42.72h-239.22c0,103.09,54.99,198.34,144.26,249.88l119.62-207.16Z"/>
+      </g>
+      <path class="st2" d="M527.98,100.7c215.39.03,389.98,174.66,389.95,390.05-.03,215.39-174.66,389.98-390.05,389.95-215.39-.03-389.98-174.66-389.95-390.05.03-215.35,174.6-389.92,389.95-389.95h.1ZM527.98,170.7c-176.73.03-319.98,143.32-319.95,320.05.03,176.73,143.32,319.98,320.05,319.95,176.73-.03,319.98-143.32,319.95-320.05-.03-176.69-143.26-319.92-319.95-319.95h-.1Z"/>
+    </g>
+    <circle class="st1" cx="527.27" cy="490.36" r="28.09"/>
+  </g>
+</svg></div>
+    <span class="nav-wordmark">Radiux</span>
+  </a>
+  <ul class="nav-links"><li><a href="index.html" class="active">Inicio</a></li><!--<li><a href="configuracion.html">Configuración</a></li>--><li><a href="terminos-y-condiciones.html">Términos y condiciones</a></li><li><a href="politicas-de-uso.html">Políticas de uso</a></li><li><a href="politica-de-privacidad.html">Política de privacidad</a></li></ul>
+</nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-kicker">Medicina nuclear</div>
+      <h1>Calculadora de decaimiento radiactivo</h1>
+      <p class="hero-sub">Para físicos y tecnólogos médicos en turno activo. Cálculos precisos de vida media y actividad residual — en segundos, sin margen de error.</p>
+      <div class="hero-actions">
+        <a href="https://play.google.com/store/apps/details?id=com.rap.radiux&hl=es_AR" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2.5L9.5 8 2 13.5V2.5z" fill="white"/><path d="M9.5 8L13.5 5.5 10.5 3.8 9.5 8z" fill="rgba(255,255,255,0.7)"/><path d="M9.5 8L10.5 12.2 13.5 10.5 9.5 8z" fill="rgba(255,255,255,0.5)"/></svg>
+          Descargar en Android
+        </a>
+        <!-- <a href="configuracion.html" class="btn-secondary">Configuración</a> -->
+      </div>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-num">12</span>
+          <span class="hero-meta-label">isótopos clínicos<br>documentados</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-num">46</span>
+          <span class="hero-meta-label">usuarios diarios<br>en 5 países</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-num">v2</span>
+          <span class="hero-meta-label">iOS & Android<br>Flutter nativo</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-icon-wrap">
+        <div class="hero-icon-glow"></div>
+        <div class="hero-icon">
+          <svg id="icon-svg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1024 1024">
+  <!-- Generator: Adobe Illustrator 30.8.1, SVG Export Plug-In . SVG Version: 2.1.4 Build 1)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #5c5cff;
+      }
+
+      .st1, .st2 {
+        fill: #fff;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .st2 {
+        fill-rule: evenodd;
+      }
+
+      .st3 {
+        fill: url(#Degradado_sin_nombre);
+      }
+
+      .st4 {
+        opacity: .9;
+      }
+
+      .st5 {
+        filter: url(#glow);
+        isolation: isolate;
+        opacity: .07;
+      }
+    </style>
+    <radialGradient id="Degradado_sin_nombre" data-name="Degradado sin nombre" cx="214.29" cy="931.48" fx="214.29" fy="931.48" r=".5" gradientTransform="translate(-218922 954345.1875) scale(1024 -1024)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0d0e1f"/>
+      <stop offset="1" stop-color="#060914"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur result="blur" stdDeviation="18"/>
+      <feComposite in="SourceGraphic" in2="blur"/>
+    </filter>
+  </defs>
+  <rect class="st3" y="0" width="1024" height="1024" rx="230" ry="230"/>
+  <g class="st5">
+    <circle class="st0" cx="512" cy="512" r="300"/>
+  </g>
+  <g>
+    <g class="st4">
+      <g>
+        <path class="st1" d="M502.03,446.83c15.26-8.81,34.07-8.81,49.33,0l119.6-207.18c-89.27-51.54-199.25-51.54-288.52,0l119.6,207.18Z"/>
+        <path class="st1" d="M576.03,489.55c0,17.62-9.4,33.91-24.66,42.72l119.62,207.16c89.27-51.54,144.26-146.79,144.26-249.87h-239.22Z"/>
+        <path class="st1" d="M502.03,532.27c-15.26-8.81-24.66-25.1-24.66-42.72h-239.22c0,103.09,54.99,198.34,144.26,249.88l119.62-207.16Z"/>
+      </g>
+      <path class="st2" d="M527.98,100.7c215.39.03,389.98,174.66,389.95,390.05-.03,215.39-174.66,389.98-390.05,389.95-215.39-.03-389.98-174.66-389.95-390.05.03-215.35,174.6-389.92,389.95-389.95h.1ZM527.98,170.7c-176.73.03-319.98,143.32-319.95,320.05.03,176.73,143.32,319.98,320.05,319.95,176.73-.03,319.98-143.32,319.95-320.05-.03-176.69-143.26-319.92-319.95-319.95h-.1Z"/>
+    </g>
+    <circle class="st1" cx="527.27" cy="490.36" r="28.09"/>
+  </g>
+</svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="features-inner">
+      <div class="features-header">
+        <p>Por qué Radiux</p>
+        <h2>Diseñada para el turno activo</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(10,185,160,0.1);">⚡</div>
+          <h3>Cálculo inmediato</h3>
+          <p>Actividad residual en menos de 2 segundos. Sin pasos intermedios, sin configuración previa.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(92,92,255,0.1);">🔬</div>
+          <h3>12 isótopos clínicos</h3>
+          <p>Tc-99m, I-131, F-18, Ga-67, Lu-177 y más. Cada uno con su vida media y uso clínico documentado.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(255,140,66,0.1);">🔄</div>
+          <h3>Conversor de unidades</h3>
+          <p>GBq, MBq, mCi, μCi, kBq — conversión simultánea entre 10 unidades de actividad.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(10,185,160,0.1);">🌓</div>
+          <h3>Modo oscuro clínico</h3>
+          <p>Diseñado para salas de preparación y quirófanos con baja iluminación. WCAG 2.1 AAA.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(92,92,255,0.1);">📱</div>
+          <h3>iOS & Android</h3>
+          <p>Flutter nativo. Un codebase, dos plataformas, misma experiencia de usuario.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(255,140,66,0.1);">🔒</div>
+          <h3>Sin datos personales</h3>
+          <p>No requiere cuenta ni permisos. No almacena ni transmite información médica.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ISOTOPES -->
+  <section class="isotopes">
+    <div class="isotopes-inner">
+      <div class="isotopes-header">
+        <h2>Isótopos disponibles</h2>
+        <p>Cada isótopo tiene su propio color semántico, vida media documentada y uso clínico. Sistema de tokens, no código ad-hoc.</p>
+      </div>
+      <div class="isotope-row">
+        <div class="isotope-chip">
+          <div class="isotope-dot" style="background:#0AB9A0;"></div>
+          <div class="isotope-symbol">⁹⁹ᵐTc</div>
+          <div class="isotope-name">Tecnecio 99m</div>
+          <div class="isotope-half">T½ = 6.01h · SPECT</div>
+        </div>
+        <div class="isotope-chip">
+          <div class="isotope-dot" style="background:#5C5CFF;"></div>
+          <div class="isotope-symbol">¹³¹I</div>
+          <div class="isotope-name">Yodo 131</div>
+          <div class="isotope-half">T½ = 8.02d · Terapia</div>
+        </div>
+        <div class="isotope-chip">
+          <div class="isotope-dot" style="background:#FF8C42;"></div>
+          <div class="isotope-symbol">¹⁸F</div>
+          <div class="isotope-name">Flúor 18</div>
+          <div class="isotope-half">T½ = 109.8min · PET</div>
+        </div>
+        <div class="isotope-chip">
+          <div class="isotope-dot" style="background:#0AB9A0;"></div>
+          <div class="isotope-symbol">⁶⁷Ga</div>
+          <div class="isotope-name">Galio 67</div>
+          <div class="isotope-half">T½ = 78.26h · SPECT</div>
+        </div>
+        <div class="isotope-chip">
+          <div class="isotope-dot" style="background:#5C5CFF;"></div>
+          <div class="isotope-symbol">¹⁷⁷Lu</div>
+          <div class="isotope-name">Lutecio 177</div>
+          <div class="isotope-half">T½ = 6.6d · Terapia</div>
+        </div>
+        <div class="isotope-chip">
+          <div class="isotope-dot" style="background:#FF8C42;"></div>
+          <div class="isotope-symbol">²⁰¹Tl</div>
+          <div class="isotope-name">Talio 201</div>
+          <div class="isotope-half">T½ = 3.04d · SPECT</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<footer>
+  <a href="index.html" class="footer-brand">
+    <div class="footer-icon"><svg id="icon-svg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1024 1024">
+  <!-- Generator: Adobe Illustrator 30.8.1, SVG Export Plug-In . SVG Version: 2.1.4 Build 1)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #5c5cff;
+      }
+
+      .st1, .st2 {
+        fill: #fff;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .st2 {
+        fill-rule: evenodd;
+      }
+
+      .st3 {
+        fill: url(#Degradado_sin_nombre);
+      }
+
+      .st4 {
+        opacity: .9;
+      }
+
+      .st5 {
+        filter: url(#glow);
+        isolation: isolate;
+        opacity: .07;
+      }
+    </style>
+    <radialGradient id="Degradado_sin_nombre" data-name="Degradado sin nombre" cx="214.29" cy="931.48" fx="214.29" fy="931.48" r=".5" gradientTransform="translate(-218922 954345.1875) scale(1024 -1024)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0d0e1f"/>
+      <stop offset="1" stop-color="#060914"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur result="blur" stdDeviation="18"/>
+      <feComposite in="SourceGraphic" in2="blur"/>
+    </filter>
+  </defs>
+  <rect class="st3" y="0" width="1024" height="1024" rx="230" ry="230"/>
+  <g class="st5">
+    <circle class="st0" cx="512" cy="512" r="300"/>
+  </g>
+  <g>
+    <g class="st4">
+      <g>
+        <path class="st1" d="M502.03,446.83c15.26-8.81,34.07-8.81,49.33,0l119.6-207.18c-89.27-51.54-199.25-51.54-288.52,0l119.6,207.18Z"/>
+        <path class="st1" d="M576.03,489.55c0,17.62-9.4,33.91-24.66,42.72l119.62,207.16c89.27-51.54,144.26-146.79,144.26-249.87h-239.22Z"/>
+        <path class="st1" d="M502.03,532.27c-15.26-8.81-24.66-25.1-24.66-42.72h-239.22c0,103.09,54.99,198.34,144.26,249.88l119.62-207.16Z"/>
+      </g>
+      <path class="st2" d="M527.98,100.7c215.39.03,389.98,174.66,389.95,390.05-.03,215.39-174.66,389.98-390.05,389.95-215.39-.03-389.98-174.66-389.95-390.05.03-215.35,174.6-389.92,389.95-389.95h.1ZM527.98,170.7c-176.73.03-319.98,143.32-319.95,320.05.03,176.73,143.32,319.98,320.05,319.95,176.73-.03,319.98-143.32,319.95-320.05-.03-176.69-143.26-319.92-319.95-319.95h-.1Z"/>
+    </g>
+    <circle class="st1" cx="527.27" cy="490.36" r="28.09"/>
+  </g>
+</svg></div>
+    <p style="font-size:13px;color:var(--ink-mid);font-weight:600;margin:0 0 0 8px;">Radiux</p>
+  </a>
+  <p>Medicina nuclear · Android</p>
+  <nav>
+    <a href="terminos-y-condiciones.html">Términos</a>
+    <a href="politicas-de-uso.html">Políticas de uso</a>
+    <a href="politica-de-privacidad.html">Privacidad</a>
+  </nav>
+</footer>
 </body>
 </html>
