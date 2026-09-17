@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <title>Términos y condiciones · Radiux</title>
+  <title>Configuración · Radiux</title>
 
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="shortcut icon" href="/radiux/favicon-32x32.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/favicon-32x32.ico" type="image/x-icon" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -233,7 +233,7 @@
 <body>
 
 <nav>
-  <a href="index.html" class="nav-brand">
+  <a href="/radiux" class="nav-brand">
     <div class="nav-icon"><svg id="icon-svg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1024 1024">
   <!-- Generator: Adobe Illustrator 30.8.1, SVG Export Plug-In . SVG Version: 2.1.4 Build 1)  -->
   <defs>
@@ -293,36 +293,63 @@
 </svg></div>
     <span class="nav-wordmark">Radiux</span>
   </a>
-  <ul class="nav-links"><li><a href="index.html" class="active">Inicio</a></li><!--<li><a href="configuracion.html">Configuración</a></li>--><li><a href="terminos-y-condiciones.html">Términos y condiciones</a></li><li><a href="politicas-de-uso.html">Políticas de uso</a></li><li><a href="politica-de-privacidad.html">Política de privacidad</a></li></ul>
+  <ul class="nav-links"><li><a href="/radiux" class="active">Inicio</a></li><!--<li><a href="/radiux/configuracion">Configuración</a></li>--><li><a href="/radiux/terminos-y-condiciones">Términos y condiciones</a></li><li><a href="/radiux/politicas-de-uso">Políticas de uso</a></li><li><a href="/radiux/politica-de-privacidad">Política de privacidad</a></li></ul>
 </nav>
-  <div class="legal-wrap">
-    <h1>Términos y condiciones</h1>
-    <p class="legal-date">Última actualización: noviembre de 2024</p>
+  <div class="config-wrap">
+    <h1>Configuración</h1>
+    <div class="config-section">
+      <div class="config-row" onclick="toggleLang()">
+        <div class="config-row-label">
+          <span>🌐</span>
+          <span>Idioma</span>
+        </div>
+        <div class="config-row-value" id="lang-value">
+          Español
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+    </div>
 
-    <h2>1. Aceptación de los términos</h2>
-    <p>Al descargar o utilizar la aplicación Radiux, aceptás cumplir con estos términos y condiciones, los cuales pueden ser actualizados ocasionalmente. Si no estás de acuerdo con alguna de las cláusulas, te solicitamos no utilizar la aplicación.</p>
+    <div id="lang-picker" style="margin-top:8px;background:var(--bg-card);border:.5px solid var(--b0);border-radius:16px;overflow:hidden;display:none;">
+      <button onclick="setLang('Español')" class="config-row" style="width:100%;border:none;text-align:left;color:var(--ink);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;background:none;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="width:20px;text-align:center;font-size:13px;color:var(--accent);">✓</span>
+          Español
+        </div>
+      </button>
+      <button onclick="setLang('Inglés')" class="config-row" style="width:100%;border:none;text-align:left;color:var(--ink);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;background:none;">
+        <div style="display:flex;align-items:center;gap:12px;"><span style="width:20px;"></span>Inglés</div>
+      </button>
+      <button onclick="setLang('Italiano')" class="config-row" style="width:100%;border:none;text-align:left;color:var(--ink);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;background:none;">
+        <div style="display:flex;align-items:center;gap:12px;"><span style="width:20px;"></span>Italiano</div>
+      </button>
+      <button onclick="setLang('Kurdo')" class="config-row" style="width:100%;border:none;text-align:left;color:var(--ink);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;background:none;">
+        <div style="display:flex;align-items:center;gap:12px;"><span style="width:20px;"></span>Kurdo</div>
+      </button>
+      <button onclick="setLang('Griego')" class="config-row" style="width:100%;border:none;text-align:left;color:var(--ink);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;background:none;">
+        <div style="display:flex;align-items:center;gap:12px;"><span style="width:20px;"></span>Griego</div>
+      </button>
+      <button onclick="setLang('Ruso')" class="config-row" style="width:100%;border:none;text-align:left;color:var(--ink);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;background:none;border-bottom:none;">
+        <div style="display:flex;align-items:center;gap:12px;"><span style="width:20px;"></span>Ruso</div>
+      </button>
+    </div>
 
-    <h2>2. Uso de la aplicación</h2>
-    <p>Radiux es una calculadora diseñada para realizar cálculos de conversión y decaimiento en el ámbito de la medicina nuclear. El uso de la aplicación debe estar limitado a profesionales de la salud con conocimientos en el área. La aplicación es una herramienta auxiliar y no reemplaza el juicio clínico ni el asesoramiento profesional.</p>
-
-    <h2>3. Responsabilidad</h2>
-    <p>Radiux realiza los cálculos basándose en algoritmos precisos, pero no garantiza la exactitud absoluta de los resultados. El usuario es responsable de verificar la validez de los cálculos antes de utilizarlos en cualquier procedimiento médico o diagnóstico. El desarrollador no será responsable de ningún daño derivado del uso inadecuado o incorrecto de la aplicación.</p>
-
-    <h2>4. Actualizaciones</h2>
-    <p>El desarrollador se reserva el derecho de modificar o discontinuar la aplicación en cualquier momento sin previo aviso. Es responsabilidad del usuario mantenerse informado sobre las actualizaciones y los cambios de los términos y condiciones.</p>
-
-    <h2>5. Propiedad intelectual</h2>
-    <p>Todos los derechos de propiedad intelectual relacionados con la aplicación Radiux, incluidos software, diseño, textos e imágenes, son propiedad exclusiva de Ivanna Sanchez y Ramiro Portas. Cualquier uso indebido o sin autorización de estos contenidos está prohibido.</p>
-
-    <h2>6. Privacidad</h2>
-    <p>La aplicación no recopila datos personales ni médicos de los usuarios. Cualquier información ingresada en la calculadora es de uso exclusivo del usuario y no se almacena ni comparte con terceros.</p>
-
-    <h2>7. Terminación del uso</h2>
-    <p>El incumplimiento de estos términos y condiciones puede resultar en la terminación de tu acceso a la aplicación. El desarrollador se reserva el derecho de bloquear el uso de la aplicación en cualquier momento sin previo aviso.</p>
+    <p style="font-size:12px;color:var(--ink-faint);margin-top:24px;line-height:1.6;">El idioma seleccionado se aplica dentro de la aplicación móvil. Esta configuración es independiente del idioma del sistema.</p>
   </div>
 
+  <script>
+    function toggleLang() {
+      const p = document.getElementById('lang-picker');
+      p.style.display = p.style.display === 'none' ? 'block' : 'none';
+    }
+    function setLang(lang) {
+      document.getElementById('lang-value').childNodes[0].textContent = lang;
+      document.getElementById('lang-picker').style.display = 'none';
+    }
+  </script>
+
 <footer>
-  <a href="index.html" class="footer-brand">
+  <a href="/radiux" class="footer-brand">
     <div class="footer-icon"><svg id="icon-svg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1024 1024">
   <!-- Generator: Adobe Illustrator 30.8.1, SVG Export Plug-In . SVG Version: 2.1.4 Build 1)  -->
   <defs>
@@ -382,11 +409,11 @@
 </svg></div>
     <p style="font-size:13px;color:var(--ink-mid);font-weight:600;margin:0 0 0 8px;">Radiux</p>
   </a>
-  <p>Medicina nuclear · Android</p>
+  <p>Medicina nuclear · iOS & Android</p>
   <nav>
-    <a href="terminos-y-condiciones.html">Términos</a>
-    <a href="politicas-de-uso.html">Políticas de uso</a>
-    <a href="politica-de-privacidad.html">Privacidad</a>
+    <a href="/radiux/terminos-y-condiciones">Términos</a>
+    <a href="/radiux/politicas-de-uso">Políticas de uso</a>
+    <a href="/radiux/politica-de-privacidad">Privacidad</a>
   </nav>
 </footer>
 </body>
